@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 
 //T тип для контролера по сущьности созданной
 //R репозиторий для этой же сущьности
@@ -29,11 +31,12 @@ public abstract class AbstractRestController<T, R extends JpaRepository<T, ?>> {
     }
 
     @PostMapping//3 добавление //получаем данные в теле собирает объект Т //присваиваеться идентификатор
-    public T add(@RequestBody T obj) {
+    public T add(@RequestBody T obj, @RequestParam Map<String, String> requestParams) {
         return repo.save(obj);
     }
 
-    @PutMapping("{id}")//4 изменение -1 спринг должен привезти из бд Т обдж, -2 спринг должен собрать объект Т и присвоить ид
+    @PutMapping("{id}")
+//4 изменение -1 спринг должен привезти из бд Т обдж, -2 спринг должен собрать объект Т и присвоить ид
     public T update(@PathVariable("id") T dbObj, @RequestBody T obj) {
         BeanUtils.copyProperties(obj, dbObj, "id");//копирует проперти из одного в другй
         return repo.save(dbObj);
