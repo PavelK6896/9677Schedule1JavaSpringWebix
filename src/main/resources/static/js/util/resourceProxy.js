@@ -8,10 +8,26 @@ define(function() { // кастомный прокси
             webix.extend(this, webix.proxy.rest)
         },
         load: function(view, params) {
+
+            var args = ''
+
+            // конфигурируем урл
+            console.log("params" , params)
+            args += '?page=' + (params ? params.start / view.config.datafetch : 0) // если парам
+
+            console.log("args", args)
+            args += '&size=' + view.config.datafetch
+
             var url = view.config.url.source
 
-            return ajax.get(url).then(function(value) {
-                return value.json().content // то что загрузил
+            return ajax.get(url + args).then(function(value) {
+                 //value.json().content // то что загрузил
+                var response = value.json()
+                return {
+                    data: response.content,
+                    pos: response.number * view.config.datafetch, // number - текущая // datafetch - число элементов
+                    total_count: response.totalElements // это количество записей с сервера
+                }
             })
         },
         save: function(view, params) { // запрос на урл

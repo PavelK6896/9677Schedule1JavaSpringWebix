@@ -43,7 +43,8 @@ require(['views/main', 'views/cars', 'views/marks', 'util/resourceProxy'],
                         view: 'toolbar',
                         cols: [
                             buildButton('Home', ''),
-                            buildButton('Marks', 'marks')
+                            buildButton('Marks', 'marks'),
+                            buildButton('Cars', 'cars'),
                         ]
                     },
                     {
@@ -57,6 +58,6 @@ require(['views/main', 'views/cars', 'views/marks', 'util/resourceProxy'],
     routie({//дополнительный код для роутера
         '': buildRoute(main),//просто мапиннг
         'cars': buildRoute(cars),
-        'marks': buildRoute(marks)
+        'marks': buildRoute(marks),
     })
 })

@@ -1,3 +1,6 @@
 1 webix libs
 2 router libs
 3 requirejs amd 2000 libs
+
+// отменяет сериализацию кастомного типа // игнорит ошибку
+spring.jackson.serialization.fail-on-empty-beans=false
