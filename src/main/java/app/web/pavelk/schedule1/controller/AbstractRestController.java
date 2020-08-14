@@ -1,5 +1,7 @@
 package app.web.pavelk.schedule1.controller;
 
+import app.web.pavelk.schedule1.domain.ComboListItem;
+import app.web.pavelk.schedule1.domain.dto.ListItemDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
@@ -10,14 +12,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 //swagger-ui.html
 //T тип для контролера по сущьности созданной
 //R репозиторий для этой же сущьности
 @CrossOrigin("*")
 @Api("CRUD")
-public abstract class AbstractRestController<T, R extends JpaRepository<T, Long>> {
+public abstract class AbstractRestController<T extends ComboListItem, R extends JpaRepository<T, Long>> {
     protected R repo;
 
     //инжектим репозитой в клас
@@ -37,23 +41,22 @@ public abstract class AbstractRestController<T, R extends JpaRepository<T, Long>
 
     //4 изменение -1 спринг должен привезти из бд Т обдж, -2 спринг должен собрать объект Т и присвоить ид
     @PutMapping("{id}")
-    public T update(@PathVariable(value = "id") Long id, @RequestBody T obj) {
+    public T update(@PathVariable(value = "id") Long id, @RequestBody T obj ) {
         T one = repo.getOne(id);
+
         System.out.println("PutMapping" + obj);
+        System.out.println("PutMapping one " + one);
+
+
         BeanUtils.copyProperties(obj, one, "id");//копирует проперти из одного в другй
         return repo.save(one);
     }
 
     @PostMapping//3 добавление //получаем данные в теле собирает объект Т //присваиваеться идентификатор
     public T add(@RequestBody T obj){
-
         System.out.println(obj + " PostMapping");
-
         T r = repo.save(obj);
-
-
         System.out.println(r + " 222222222222");
-
         return r;
     }
 
@@ -62,4 +65,13 @@ public abstract class AbstractRestController<T, R extends JpaRepository<T, Long>
     public void delete(@PathVariable(value = "id") Long id) {
         repo.deleteById(id);
     }
+
+    @GetMapping("list")
+    public List<ListItemDto> list() {
+        return repo.findAll()
+                .stream()
+                .map(entity -> new ListItemDto(entity.getId(), entity.getName()))
+                .collect(Collectors.toList());
+    }
+
 }

@@ -29,9 +29,9 @@ function buildButton(label, route) {
 
 //промписываем импортированные скрипты // передаем в функцию
 // import cars from 'views/cars' // упрощено до
-require(['views/main', 'views/cars', 'views/marks', 'util/resourceProxy'],
+require(['views/main', 'views/cars', 'views/marks', 'views/models', 'util/resourceProxy'],
 
-    function (main, cars, marks, resourceProxy) {//отрисовка главное приложение
+    function (main, cars, marks, models, resourceProxy) {//отрисовка главное приложение
     webix.ready(function () { // готов - ready
         webix.ui({//контейнер
             container: "app",//наме для хтмл
@@ -44,6 +44,7 @@ require(['views/main', 'views/cars', 'views/marks', 'util/resourceProxy'],
                         cols: [
                             buildButton('Home', ''),
                             buildButton('Marks', 'marks'),
+                            buildButton('Model', 'models'),
                             buildButton('Cars', 'cars'),
                         ]
                     },
@@ -58,6 +59,7 @@ require(['views/main', 'views/cars', 'views/marks', 'util/resourceProxy'],
     routie({//дополнительный код для роутера
         '': buildRoute(main),//просто мапиннг
         'cars': buildRoute(cars),
+        'models': buildRoute(models),
         'marks': buildRoute(marks),
     })
 })
