@@ -1,6 +1,7 @@
 package app.web.pavelk.schedule1.domain;
 
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ public class Car implements ComboListItem{
     private String name;
 
     @ManyToOne
-    @JsonIdentityReference(alwaysAsId = true) // только ид
+    @JsonIdentityReference //(alwaysAsId = true) // только ид
+    @JsonSerialize(as=ComboListItem.class) // джексон развернет и модель
     private Model model;
 }

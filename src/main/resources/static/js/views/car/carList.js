@@ -6,7 +6,13 @@ define(['component/listPage', 'collections/models'], function(listPage, models) 
         'resource->/api/car',
         [
             { id: "name", editor: "text" },
-            {id: 'mark', editor: "combo", options: models}
+            {
+                id: 'model',
+                dialogUrl: 'views/model/modelDialog',
+                template: function(row) { //'#model.name#'
+                    return row.model && row.model.name || '' // просто иф для строки
+                }
+            }
 
         ]
     )
