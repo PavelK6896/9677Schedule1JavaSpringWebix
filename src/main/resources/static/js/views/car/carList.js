@@ -1,6 +1,4 @@
-define(['component/listPage', 'collections/models'], function(listPage, models) {
-
-    console.log(models)
+define(['component/listPage'], function(listPage) {
     return listPage(
         'carList',
         'resource->/api/car',
@@ -10,7 +8,7 @@ define(['component/listPage', 'collections/models'], function(listPage, models) 
                 id: 'model',
                 dialogUrl: 'views/model/modelDialog',
                 template: function(row) { //'#model.name#'
-                    return row.model && row.model.name || '' // просто иф для строки
+                    return row.model && row.model.repr || '' // просто иф для строки
                 }
             }
 
